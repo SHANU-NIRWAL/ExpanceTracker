@@ -224,21 +224,17 @@ body {
                 <div>
                     <h1 class="logo-badge text-whitesmoke"><span class="fa fa-user-circle"></span></h1>
                 </div>
-                    <h3 class="text-whitesmoke">Sign In</h3>
-                    <p class="text-whitesmoke">say hi to your expense</p>
+                    
+                    <p class="text-whitesmoke">Forgot Password</p>
                 <div class="container-content">
-                    <form class="margin-t" action="searchUser" method="post"  modelAttribute="user">
+                    <form class="margin-t" action="sendOtp" method="get" >
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="email" name="email" required="">
                         </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" placeholder="*****" name="password" required="">
-                        </div>
-                        <button type="submit" class="form-button button-l margin-b">Sign In</button>
+                      
+                        <button type="submit" class="form-button button-l margin-b">Send Otp</button>
         
-                        <a class="text-darkyellow" href="forgetpswd"><small>Forgot your password?</small></a>
-                        <p class="text-whitesmoke text-center"><small>Do not have an account?</small></p>
-                        <a class="text-darkyellow" href="signup"><small>Sign Up</small></a>
+                       
                     </form>
                    
                 </div>

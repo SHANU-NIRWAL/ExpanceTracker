@@ -224,8 +224,8 @@ body {
                 <div>
                     <h1 class="logo-badge text-whitesmoke"><span class="fa fa-user-circle"></span></h1>
                 </div>
-                    <h3 class="text-whitesmoke">Sign In Template</h3>
-                    <p class="text-whitesmoke">Sign In</p>
+                    <h3 class="text-whitesmoke">Sign In</h3>
+                    <p class="text-whitesmoke">say hi to your expense</p>
                 <div class="container-content">
                     <form class="margin-t" action="searchUser" method="post"  modelAttribute="user">
                         <div class="form-group">
@@ -236,7 +236,7 @@ body {
                         </div>
                         <button type="submit" class="form-button button-l margin-b">Sign In</button>
         
-                        <a class="text-darkyellow" href="#"><small>Forgot your password?</small></a>
+                        <a class="text-darkyellow" href="forgetpswd"><small>Forgot your password?</small></a>
                         <p class="text-whitesmoke text-center"><small>Do not have an account?</small></p>
                         <a class="text-darkyellow" href="signup"><small>Sign Up</small></a>
                     </form>

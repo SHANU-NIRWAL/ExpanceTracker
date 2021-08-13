@@ -218,31 +218,62 @@ body {
     letter-spacing: -10px;
     margin-bottom: 0;
 }</style>
+
 </head>
+
 <body class="main-bg">
+
         <div class="login-container text-c animated flipInX">
                 <div>
                     <h1 class="logo-badge text-whitesmoke"><span class="fa fa-user-circle"></span></h1>
                 </div>
-                    <h3 class="text-whitesmoke">Sign In</h3>
-                    <p class="text-whitesmoke">say hi to your expense</p>
+                    <h3 class="text-whitesmoke">New Password</h3>
+                    <p class="text-whitesmoke">EnterNew Password</p>
                 <div class="container-content">
-                    <form class="margin-t" action="searchUser" method="post"  modelAttribute="user">
+                    <form class="margin-t" onsubmit = "return checkPassword(this)" action="updatePass" method="get"  modelAttribute="user" >
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="email" name="email" required="">
+                            <input type="password" class="form-control" placeholder="Enter Your Password" name="newPassword" required="">
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" placeholder="*****" name="password" required="">
+                            <input type="password" class="form-control" placeholder="Confirm Password" name="reWritePass" required="">
                         </div>
-                        <button type="submit" class="form-button button-l margin-b">Sign In</button>
+                        <button type="submit" class="form-button button-l margin-b">Submit</button>
         
-                        <a class="text-darkyellow" href="forgetpswd"><small>Forgot your password?</small></a>
-                        <p class="text-whitesmoke text-center"><small>Do not have an account?</small></p>
-                        <a class="text-darkyellow" href="signup"><small>Sign Up</small></a>
+                       
                     </form>
                    
                 </div>
             </div>
+            <script type="text/javascript"><script>
+          
+            // Function to check Whether both passwords
+            // is same or not.
+            function checkPassword(form) {
+                password1 = form.newPassword.value;
+                password2 = form.reWritePass.value;
+  
+                // If password not entered
+                if (password1 == '')
+                    alert ("Please enter Password");
+                      
+                // If confirm password not entered
+                else if (password2 == '')
+                    alert ("Please enter confirm password");
+                      
+                // If Not same return False.    
+                else if (password1 != password2) {
+                    alert ("\nPassword did not match: Please try again...")
+                    return false;
+                }
+  
+                // If same return True.
+                else{
+                    alert("Password Match: Welcome to GeeksforGeeks!")
+                    return true;
+                }
+                return false;
+            }
+        </script>
 </body>
 </html>
 

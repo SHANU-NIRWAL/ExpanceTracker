@@ -8,16 +8,10 @@ public class UserBean {
 	String email;
 	String password;
 	long phone;
+	
+	private RoleBean role;
 
-	public enum Role {
-		user, admin;
-	}
 
-	public Role role;
-
-//	public UserBean() {
-//				this.role=role.user;
-//	}
 
 	public int getUserId() {
 		return userId;
@@ -67,12 +61,20 @@ public class UserBean {
 		this.phone = phone;
 	}
 
-	public Role getRole() {
+	public RoleBean getRole() {
 		return role;
 	}
 
-	public void setRole(Role role) {
+	public void setRole(RoleBean role) {
 		this.role = role;
 	}
+
+	@Override
+	public String toString() {
+		return "UserBean [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", password=" + password + ", phone=" + phone + ", role=" + role + "]";
+	}
+	
+
 
 }
