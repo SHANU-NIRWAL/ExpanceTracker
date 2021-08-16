@@ -21,18 +21,21 @@ color: rgb(255 248 248 / 90%);
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-  <a class="navbar-brand" href="account">Add Account</a>
+  <a class="navbar-brand" href="users">All Account</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="expense">Add Expence <span class="sr-only">(current)</span></a>
+    <li class="nav-item active">
+        <a class="nav-link" href="accountrole">Account Type<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link textcolor" href="expenseDetails">View Expence</a>
+        <a class="nav-link" href="category">Add Category<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link textcolor" href="subcategory">Sub Category</a>
       </li>
      
     

@@ -4,11 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
+	
 <meta charset="ISO-8859-1">
 <script src="https://code.jquery.com/jquery-3.3.1.js"
 	integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -42,8 +44,8 @@ h1 {
 	<div id="header">
 		<h1 class="center">Add Account</h1>
 	</div>
-	<form class="row g-3" action="accountinsert" method="post" modelAttribute="account" >
-		<div class="right">
+	<form class="row g-3 " action="accountinsert" method="post" modelAttribute="account" >
+		<div class="right shadow-lg p-3 mb-5 bg-body rounded">
 			<div class="col px-md-5">
 				<div class="col-auto">
 					<label for="account" class="form-label">Account Name:</label> <input

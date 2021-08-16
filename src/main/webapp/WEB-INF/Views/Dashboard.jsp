@@ -10,6 +10,7 @@
 <title>Dashboarde</title>
 </head>
 <body>
+<%@ include file="part/AdminHeader.jsp" %>
 <h1>List of all Users</h1>
 
 <table class="table">

@@ -12,7 +12,12 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
 import com.bean.AccountBean;
+import com.bean.AccountName;
 import com.bean.AccountTypeBean;
+import com.bean.BalanceBean;
+import com.bean.CategoryBean;
+import com.bean.ExpenseBean;
+import com.bean.PayeeBean;
 import com.bean.RoleBean;
 import com.bean.UserBean;
 
@@ -174,8 +179,13 @@ public class UserDao {
 			acType.setTypeName(resultSet.getString("typeName"));
 			return acType;
 		});
+		
 		// TODO Auto-generated method stub
 
+	}
+	public void categoryInsert(CategoryBean cat){
+		stmt.update("insert into category(catName) values(?)",
+				cat.getCatName());
 	}
 
 	public void setAccount(AccountBean account) {
@@ -203,6 +213,111 @@ public class UserDao {
 			return accountbean;
 		});
 		
+	}
+
+	public List<BalanceBean> getallaccountbyID(int userID) {
+		String query="select accountId,accountName,balance from account where userId="+userID;
+		return stmt.query(query, (resultSet,rowNum)->{
+			BalanceBean balancedetails=new BalanceBean();
+			balancedetails.setAccountId(resultSet.getInt("accountId"));
+			balancedetails.setAccountName(resultSet.getString("accountName"));
+			balancedetails.setAmount(resultSet.getInt("balance"));
+			return balancedetails;
+		});
+		
+	}
+
+	public List<PayeeBean> getallPayee() {
+		String query="select * from payee";
+		return stmt.query(query, (resultSet,rownum)->{
+			PayeeBean payee=new PayeeBean();
+			payee.setPayeeId(resultSet.getInt("payeeId"));
+			payee.setPayeename(resultSet.getString("payeeName"));
+			
+			return payee;
+		});
+	}
+
+	public void setexpense(ExpenseBean expbean) {
+		System.out.println(expbean);
+		System.out.println("set>>>>>");
+		String query="insert into expense (payee,amount,paymentMethod,description,userId,dateExp,timeExp,exppic) values (?,?,?,?,?,?,?,?)";
+		stmt.update(query,expbean.getPayeeName(),expbean.getAmmount(),expbean.getUseraccountID(),expbean.getDescription(),expbean.getUserId(),expbean.getDateexp(),expbean.getTimeexp(),expbean.getImage());
+		
+	}
+
+	public BalanceBean  getamountbyuserIDandaccountID(int userID, int useraccountID) {
+		String query="select * from account where userId="+userID+" and accountId="+useraccountID;
+		return  stmt.query(query, new ResultSetExtractor<BalanceBean>() {
+			public BalanceBean extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if (rs.next()) {
+					BalanceBean balance= new BalanceBean();
+					balance.setAmount(rs.getInt("balance"));
+
+					return balance;
+				}
+				return null;
+
+			}
+		});
+
+		
+	}
+
+	public void updatebalance(ExpenseBean expbean) {
+		String query="update account set balance=balance"+-expbean.getAmmount()+" where accountId="+expbean.getUseraccountID()+" and userId="+expbean.getUserId();
+		stmt.update(query);
+		
+	}
+
+	public void setpayee(String payeeName, int userId) {
+		String query="insert into payee(payeeName,userId) values(?,?)";
+		stmt.update(query,payeeName,userId);
+		
+	}
+
+	public List<ExpenseBean> getAllExpenseDetails(int userID) {
+		String query="select * from expense join account on expense.paymentMethod=account.accountId where expense.userId="+userID;
+		return stmt.query(query,(resultSet,rowNum)->{
+			ExpenseBean expensebean=new ExpenseBean();
+			AccountName account =new AccountName();
+			expensebean.setExpenseId(resultSet.getInt("expenseId"));
+			expensebean.setPayeeName(resultSet.getString("payee"));
+			expensebean.setAmmount(resultSet.getInt("amount"));
+			expensebean.setTimeexp(resultSet.getString("timeExp"));
+			expensebean.setDateexp(resultSet.getDate("dateExp"));
+			expensebean.setDescription(resultSet.getString("description"));
+			account.setId(resultSet.getInt("accountId"));
+			account.setName(resultSet.getString("accountName"));
+			expensebean.setAccountTypebean(account);
+			expensebean.setImage(resultSet.getString("exppic"));
+			
+			return expensebean;
+		});
+		
+	}
+
+	public List<CategoryBean> getallCategory() {
+		String query="select * from category";
+		return stmt.query(query,(resultSet,rowNum)->{
+			CategoryBean category=new CategoryBean();
+			category.setCatId(resultSet.getInt("catId"));
+			category.setCatName(resultSet.getString("catName"));
+			
+			return category;
+		});
+		
+	}
+
+	public List<CategoryBean> getallCategoryByPayeeName(String payeeName) {
+		String query="select * from category where payeename='"+payeeName+"'";
+		return stmt.query(query,(resultSet,rowNum)->{
+			CategoryBean category=new CategoryBean();
+			category.setCatId(resultSet.getInt("catId"));
+			category.setCatName(resultSet.getString("catName"));
+			
+			return category;
+		});
 	}
 	
 	
