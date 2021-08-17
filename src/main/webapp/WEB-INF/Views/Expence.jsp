@@ -66,16 +66,21 @@ h1 {
 		<label for="Category" class="form-label" ><h5>Category</h5></label><input 
 		type="text"class="form-control" name="categorydatalist" list="categorydatalist" onchange='onInput(this)' id="categoryinput" >
 		<datalist id="categorydatalist">
-				<c:forEach items="${category}" var="catdata">
+				<!--<c:forEach items="${category}" var="catdata">
 					<option value="${catdata.catName}"></option>
-				</c:forEach>
+				</c:forEach>-->
 			</datalist>
 		
 		</div>
 		
 		<div class="col-4">
-		<label for="subCategory" class="form-label" ><h5>Sub Category</h5></label><input 
-		type="text"class="form-control" name="SubCategory" >
+		<label for="subCategory" class="form-label" ><h5>SubCategory</h5></label><input 
+		type="text"class="form-control" name="subcategorydatalist" list="subcategorydatalist" id="subcategoryinput" >
+		<datalist id="subcategorydatalist">
+				<!--<c:forEach items="${category}" var="catdata">
+					<option value="${catdata.catName}"></option>
+				</c:forEach>-->
+			</datalist>
 		</div>
 		</div>
 		<div class="row g-3">
@@ -141,9 +146,11 @@ h1 {
 	{
 		var val=document.getElementById("exampleDataList").value;
 		var xhttp = new XMLHttpRequest();
+		console.log(val);
 	     xhttp.onreadystatechange = function() {
 	          if (this.readyState == 4 && this.status == 200) {
 	        	  console.log(xhttp.response);
+	        	  myFunction(this);
 	          }
 	      };
 	      xhttp.open("GET", "/ExpanseTracker/payeecategory/"+val, true);
@@ -157,17 +164,65 @@ h1 {
 	    var opts = document.getElementById('categorydatalist').childNodes;
 	      console.log(val);
 	      var xhttp = new XMLHttpRequest();
-	      console.log(xhttp);
-	      
 	      xhttp.onreadystatechange = function() {
 	          if (this.readyState == 4 && this.status == 200) {
 	        	  console.log(xhttp.response);
+	        	  myFunctionsub(this);
 	          }
 	      };
-	      xhttp.open("GET", "/ExpanseTracker/testcat", true);
+	      xhttp.open("GET", "/ExpanseTracker/payeesubcategory/"+val, true);
 	      xhttp.send();
-	      
 	  }
+	
+	function myFunction(xml) {
+		  var x, i, xmlDoc, txt;
+		  var list=[];
+		  xmlDoc = xml.responseXML;
+		  console.log("xmlDoc");
+		  console.log(xmlDoc);
+		  txt = "";
+		  x = xmlDoc.getElementsByTagName("catName");
+		  console.log(x.length)
+		  for (i = 0; i< x.length; i++) {
+		   /// txt += x[i].childNodes[0].nodeValue + "<br>";
+		   console.log("test");
+		    console.log(x[i].childNodes[0].nodeValue);
+		    list.push(x[i].childNodes[0].nodeValue);
+		  }
+		  console.log(list);
+		  var list2 = document.getElementById('categorydatalist');
+			
+		  list.forEach(function(item){
+			  var option = document.createElement('option');
+			     option.value = item;
+			     list2.appendChild(option);
+		  });
+		}
+	
+	function myFunctionsub(xml) {
+		  var x, i, xmlDoc, txt;
+		  var list=[];
+		  xmlDoc = xml.responseXML;
+		  console.log(xmlDoc);
+		  txt = "";
+		  x = xmlDoc.getElementsByTagName("item");
+		  console.log(x.length)
+		  for (i = 0; i< x.length; i++) {
+		    txt += x[i].childNodes[0].nodeValue + "<br>";
+		    console.log(x[i].childNodes[0].nodeValue);
+		    list.push(x[i].childNodes[0].nodeValue);
+		  }
+		  console.log(list);
+		  var list2 = document.getElementById('subcategorydatalist');
+			
+		  list.forEach(function(item){
+			  var option = document.createElement('option');
+			     option.value = item;
+			     list2.appendChild(option);
+		  });
+		 
+		}
+	
 	</script>
 </body>
 </html>

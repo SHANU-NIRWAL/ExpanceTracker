@@ -262,7 +262,7 @@ public class AppController {
 		int userID = Integer.parseInt(
 				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "45".toString());
 		List<BalanceBean> acbean = userDao.getallaccountbyID(userID);
-		List<PayeeBean> payebean = userDao.getallPayee();
+		List<PayeeBean> payebean = userDao.getallPayee(userID);
 		List<CategoryBean> ctbean=userDao.getallCategory();
 		model.addAttribute("category", ctbean);
 		model.addAttribute("payeedata", payebean);
@@ -277,7 +277,7 @@ public class AppController {
 		int userID = Integer.parseInt(
 				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "45".toString());
 		List<BalanceBean> acbean = userDao.getallaccountbyID(userID);
-		List<PayeeBean> payebean = userDao.getallPayee();
+		List<PayeeBean> payebean = userDao.getallPayee(userID);
 		model.addAttribute("payeedata", payebean);
 		model.addAttribute("useraccount", acbean);
 		model.addAttribute("error", "balance error");
@@ -355,6 +355,7 @@ public class AppController {
 	@ResponseBody
 	public List<CategoryBean> getallCategoryBean(@PathVariable("payeeName") String payeeName)
 	{
+		System.out.println(payeeName);
 	 	List<CategoryBean> result=userDao.getallCategoryByPayeeName(payeeName);
 	 	List<String>rslt=new ArrayList<>();
 	 	
@@ -371,5 +372,18 @@ public class AppController {
 		//System.out.println(value);
 		return "hellow world";
 	}
+	
+	 @RequestMapping(value="/payeesubcategory/{categoryName}" , method = RequestMethod.GET )
+	    @ResponseBody
+	    public List<String> getallsubCategory(@PathVariable("categoryName") String categoryName)
+	    {
+	        List<String> result=userDao.getallsubCategoryByCategoryName(categoryName);
+//	        List<String>rslt=new ArrayList<>();
+//	        
+//	        result.stream().forEach(x->rslt.add(x.getCatName()));
+	        
+	        return result;
+	        
+	    }
 
 }

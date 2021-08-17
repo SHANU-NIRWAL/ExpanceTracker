@@ -13,6 +13,25 @@ public class ExpenseBean {
 	private String description;
 	private int userId;
 	private AccountName accountName;
+	String categorydatalist;
+	String subcategorydatalist;
+	
+	
+	
+	
+	public String getCategorydatalist() {
+		return categorydatalist;
+	}
+	public void setCategorydatalist(String categorydatalist) {
+		this.categorydatalist = categorydatalist;
+	}
+	public String getSubcategorydatalist() {
+		return subcategorydatalist;
+	}
+	public void setSubcategorydatalist(String subcategorydatalist) {
+		this.subcategorydatalist = subcategorydatalist;
+	}
+	
 	
 	private String image;
 	

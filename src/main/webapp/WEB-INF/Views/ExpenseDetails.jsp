@@ -30,6 +30,8 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Payee Name</th>
+      <th scope="col">Category</th>
+      <th scope="col">Sub Category</th>
       <th scope="col">Amount Debit</th>
       <th scope="col">Account</th>
       <th scope="col">Time</th>
@@ -43,6 +45,8 @@
     <tr>
     <td>${expensedetails.expenseId}</td>
       <td>${expensedetails.payeeName}</td>
+       <td>${expensedetails.categorydatalist}</td>
+        <td>${expensedetails.subcategorydatalist}</td>
       <td>${expensedetails.ammount}</td>
       <td>${expensedetails. accountTypebean.name}</td>
       <td>${expensedetails.timeexp}</td>
