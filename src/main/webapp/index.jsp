@@ -1,4 +1,6 @@
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1" isELIgnored="false"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -18,8 +20,12 @@
 	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
 	crossorigin="anonymous">
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!--Custom styles-->
 <link rel="stylesheet" type="text/css" href="styles.css">
+
 <style type="text/css">
 html {
     height: 100%;
@@ -193,8 +199,13 @@ body {
 
 .main-bg {
 
-    background: #424242;
-    background: linear-gradient( #424242, #212121);
+background: #424242;
+	/*background: linear-gradient(#424242, #212121);*/
+	background-image:url("https://c4.wallpaperflare.com/wallpaper/444/479/808/flowers-yellow-flowers-black-background-digital-art-wallpaper-preview.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
 }
 
 /* Login & Register Pages*/
@@ -220,6 +231,23 @@ body {
 }</style>
 </head>
 <body class="main-bg">
+
+
+
+<!-- The Modal -->
+
+
+
+<%-- <c:if test="${stat==1 }" >
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Open modal
+</button>
+
+<!-- The Modal -->
+
+
+</c:if> --%>
+
         <div class="login-container text-c animated flipInX">
                 <div>
                     <h1 class="logo-badge text-whitesmoke"><span class="fa fa-user-circle"></span></h1>
@@ -232,9 +260,9 @@ body {
                             <input type="text" class="form-control" placeholder="email" name="email" required="">
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" placeholder="*****" name="password" required="">
+                            <input type="password" class="form-control" placeholder="***" name="password" required="">
                         </div>
-                        <button type="submit" class="form-button button-l margin-b">Sign In</button>
+                        <button type="submit" class="form-button button-l margin-b" data-toggle="modal" data-target="#myModal">Sign In</button>
         
                         <a class="text-darkyellow" href="forgetpswd"><small>Forgot your password?</small></a>
                         <p class="text-whitesmoke text-center"><small>Do not have an account?</small></p>
@@ -243,8 +271,10 @@ body {
                    
                 </div>
             </div>
+            
+            
+            
+     
+
 </body>
 </html>
-
-
-

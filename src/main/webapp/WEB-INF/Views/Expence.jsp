@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,16 +31,36 @@ h1 {
 	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 	crossorigin="anonymous"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript">
+    $(window).on('load',function(){
+        $('#myModal').modal('show');
+    });
+</script>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body>
+<body style="background-color:#d7d7d9">
+
+<c:if test="${accountSize==0 }">
+<script>
+window.alert("First add account");
+window.location.href="/ExpanseTracker/account";
+
+</script>
+
+</c:if>
+
 	<%@ include file="part/Header.jsp"%>
-	<h1>Add Your Expense</h1>
+
+	
+	<h1 style="text-align: center;background-color: black;color:white">Add Your Expense</h1>
+	
 	<br>
-	<form class="row g-3 right mx-auto shadow-lg p-3 mb-5 bg-body rounded"
+		<!-- <h1 style= "background-color: black;color:white">hello ---${accountSize==0}</h1>
+		<br> -->
+	<form class="row g-3 right mx-auto  p-3 mb-5 bg-body rounded"
 		action="test" method="post" modelAttribute="expense"
-		enctype="multipart/form-data">
+		enctype="multipart/form-data" style=" box-shadow: 10px 10px 5px grey;border-style: outset;width:700px;height:700px;">
 
 		<div class="col-6">
 			<label for="exampleDataList"
@@ -89,8 +110,8 @@ h1 {
 					type="time" id="currentTime" class="form-control" name="timeexp">
 					<script>
 						var today = new Date();
-						var time = today.getHours() + ":" + today.getMinutes()
-								+ ":" + today.getSeconds();
+						var time = today.getHours() + ":" + today.getMinutes();
+					
 						document.getElementById("currentTime").value = time;
 					</script></label>
 			</div>

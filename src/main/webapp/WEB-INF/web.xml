@@ -20,4 +20,12 @@
 		<servlet-name>FrontController</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	<error-page>
+	<error-code>404</error-code>
+	<location>/ErrorPage.jsp</location>
+	</error-page>
+	<error-page>
+	<error-code>500</error-code>
+	<location>/ErrorPages.jsp</location>
+	</error-page>
 </web-app>

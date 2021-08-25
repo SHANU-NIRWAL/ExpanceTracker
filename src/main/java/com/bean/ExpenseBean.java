@@ -114,8 +114,9 @@ public class ExpenseBean {
 	public String toString() {
 		return "ExpenseBean [expenseId=" + expenseId + ", payeeName=" + payeeName + ", ammount=" + ammount
 				+ ", timeexp=" + timeexp + ", dateexp=" + dateexp + ", description=" + description + ", userId="
-				+ userId + ", accountName=" + accountName + ", image=" + image + ", useraccountID=" + useraccountID
-				+ "]";
+				+ userId + ", accountName=" + accountName + ", categorydatalist=" + categorydatalist
+				+ ", subcategorydatalist=" + subcategorydatalist + ", image=" + image + ", useraccountID="
+				+ useraccountID + "]";
 	}
 	
 	

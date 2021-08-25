@@ -6,6 +6,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class CategoryBean {
  int catId;
  String catName;
+ String payeeName;
+ int payeeId;
+public String getPayeeName() {
+	return payeeName;
+}
+public void setPayeeName(String payeeName) {
+	this.payeeName = payeeName;
+}
+public int getPayeeId() {
+	return payeeId;
+}
+public void setPayeeId(int payeeId) {
+	this.payeeId = payeeId;
+}
 public int getCatId() {
 	return catId;
 }

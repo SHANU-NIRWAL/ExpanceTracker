@@ -21,29 +21,22 @@ color: rgb(255 248 248 / 90%);
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-  <a class="navbar-brand" href="/ExpanseTracker/account">Add Account</a>
+  <a class="navbar-brand" href="/ExpanseTracker/users">All Account</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="expense">Add Expence <span class="sr-only">(current)</span></a>
+    <li class="nav-item active">
+        <a class="nav-link" href="expenseDetailsADmin/accountrole">Account Type<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link textcolor" href="expenseDetails">View Expence</a>
+        <a class="nav-link" href="expenseDetailsADmin/category">Add Role<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link textcolor" href="chartView">Chart View</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link textcolor" href="expensegenerator">Expense Report</a>
-      </li>
-       <li class="nav-item active">
-        <a class="nav-link textcolor" href="manage">Manage Other Information</a>
-      </li>
-       </li>
+     <!--  <li class="nav-item active">
+        <a class="nav-link textcolor" href="subcategory">Sub Category</a>
+      </li> -->
      
     
     </ul>

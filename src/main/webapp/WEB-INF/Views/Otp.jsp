@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"  isELIgnored="false"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -194,8 +195,13 @@ body {
 
 .main-bg {
 
-    background: #424242;
-    background: linear-gradient( #424242, #212121);
+   background: #424242;
+	/*background: linear-gradient(#424242, #212121);*/
+	background-image:url("https://c4.wallpaperflare.com/wallpaper/444/479/808/flowers-yellow-flowers-black-background-digital-art-wallpaper-preview.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
 }
 
 /* Login & Register Pages*/
@@ -221,6 +227,17 @@ body {
 }</style>
 </head>
 <body class="main-bg">
+<c:if test="${stat==1 }" >
+
+<script>
+window.alert("OTP mismatched");
+</script>
+
+
+<!-- The Modal -->
+
+
+</c:if>
         <div class="login-container text-c animated flipInX">
                 <div>
                     <h1 class="logo-badge text-whitesmoke"><span class="fa fa-user-circle"></span></h1>

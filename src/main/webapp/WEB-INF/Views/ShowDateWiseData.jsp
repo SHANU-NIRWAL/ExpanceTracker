@@ -45,7 +45,25 @@
 	<%@ include file="part/Header.jsp"%>
 	</c:otherwise>
 	</c:choose>
-	
+
+				<select name="monthName" id="monthName"
+					class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+					<option selected>Select Month</option>
+					<option value="01">January</option>
+					<option value="02">February</option>
+					<option value="03">March</option>
+					<option value="04">April</option>
+					<option value="05">May</option>
+					<option value="06">June</option>
+					<option value="07">July</option>
+					<option value="08">August</option>
+					<option value="09">September</option>
+					<option value="10">October</option>
+					<option value="11">November</option>
+					<option value="12">December</option>
+				</select>
+				<button onclick="funmy()">button</button>
+				
 	
 	<h1 style="text-align: center;background-color: black;color:white">Total Expense</h1>
 
@@ -95,8 +113,27 @@
             id="btPrint" onclick="createPDF()"  />
 		</div>
 		
+
 	
 	<script>
+	function funmy()
+	{
+		console.log("button clicked");
+		var selectedvalue=document.getElementById("monthName").value;
+		console.log(selectedvalue);
+		
+		var xhttp = new XMLHttpRequest();
+		
+	     xhttp.onreadystatechange = function() {
+	          if (this.readyState == 4 && this.status == 200) {
+	        	  console.log(xhttp.response);
+	        	  
+	          }
+	      };
+	      xhttp.open("GET", "/downloadPdfbymonth/"+selectedvalue, true);
+	      xhttp.send();
+	}
+	
 	 function createPDF() {
 	        var sTable = document.getElementById('tab').innerHTML;
 

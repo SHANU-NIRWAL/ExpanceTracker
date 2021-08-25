@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,8 +11,10 @@
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
-	
+
 <meta charset="ISO-8859-1">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="https://code.jquery.com/jquery-3.3.1.js"
 	integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
 	crossorigin="anonymous">
@@ -39,13 +42,17 @@ h1 {
 </style>
 <title>Insert title here</title>
 </head>
-<body>
-<%@ include file="part/Header.jsp" %> 
+<body style="background-color: #d7d7d9">
+	<%@ include file="part/Header.jsp"%>
 	<div id="header">
-		<h1 class="center">Add Account</h1>
+		<h1 class="center"
+			style="text-align: center; background-color: black; color: white">Add
+			Account</h1>
 	</div>
-	<form class="row g-3 " action="accountinsert" method="post" modelAttribute="account" >
-		<div class="right shadow-lg p-3 mb-5 bg-body rounded">
+	<form class="row g-3 " action="accountinsert" method="post"
+		modelAttribute="account">
+		<div class="right  p-3 mb-5 bg-body rounded"
+			style="box-shadow: 10px 10px 5px grey; border-style: outset; width: 700px;">
 			<div class="col px-md-5">
 				<div class="col-auto">
 					<label for="account" class="form-label">Account Name:</label> <input
@@ -54,7 +61,8 @@ h1 {
 
 				<div class="col-auto">
 					<label for="inputPassword4" class="form-label">Balance</label> <input
-						type="text" class="form-control" id="inputPassword4" name="balance">
+						type="text" class="form-control" id="inputPassword4"
+						name="balance">
 				</div>
 				<div class="row">
 					<div class="col">
@@ -62,8 +70,7 @@ h1 {
 							<select name="accountType" class="form-control">
 								<c:forEach items="${AccountType}" var="accountType">
 									<option value="${accountType.accountTypeId}"
-										<c:if test="${accountType.accountTypeId eq selectedCatId}">selected="selected"</c:if>
-										>${accountType.typeName}</option>
+										<c:if test="${accountType.accountTypeId eq selectedCatId}">selected="selected"</c:if>>${accountType.typeName}</option>
 								</c:forEach>
 						</select></label>
 					</div>
@@ -72,8 +79,8 @@ h1 {
 							type="text" id="currentTime" class="form-control"> <script>
 								var today = new Date();
 								var time = today.getHours() + ":"
-										+ today.getMinutes() + ":"
-										+ today.getSeconds();
+										+ today.getMinutes();
+
 								document.getElementById("currentTime").value = time;
 							</script></label>
 					</div>
@@ -102,28 +109,36 @@ h1 {
 		</div>
 	</form>
 	<hr>
-<table class="table">
-  <thead>
-    <tr>
-  
-      <th scope="col">Account Name</th>
-      <th scope="col">Balance</th>
-      <th scope="col">Account Type</th>
-      <th scope="col">Created At</th>
-    </tr>
-  </thead>
-  <tbody>
-  <c:forEach items="${useraccountdetails}" var="useraccountdetail">
-    <tr>
-   
-      <td>${useraccountdetail.accountName}</td>
-      <td>${useraccountdetail.balance}</td>
-      <td>${useraccountdetail.accountTypename }</td>
-      <td>${useraccountdetail.createdAt}</td>
-    
-    </tr>
-</c:forEach>
-  </tbody>
-</table>
+	<div style="margin: auto; width: 800px;">
+		<table class="table table-info "
+			style="box-shadow: 10px 10px 5px grey;">
+			<thead>
+				<tr class="table-dark">
+
+					<th scope="col">Account Name</th>
+					<th scope="col">Balance</th>
+					<th scope="col">Account Type</th>
+					<th scope="col">Created At</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${useraccountdetails}" var="useraccountdetail">
+					<tr>
+						
+						<td>${useraccountdetail.accountName}</td>
+						<td>${useraccountdetail.balance}</td>
+						<td>${useraccountdetail.accountTypename }</td>
+						<td>${useraccountdetail.createdAt}</td>
+						<td><a href="editAccount/${useraccountdetail.accountId}"><i
+								class="material-icons">&#xe22b;</i></a>&nbsp; <a
+							href="deleteAccount/${useraccountdetail.accountId}"><i
+								class="material-icons" style="color: red">&#xe872;</i></a></td>
+
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>

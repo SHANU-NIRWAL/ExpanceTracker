@@ -192,9 +192,13 @@ body {
 /* Backgrounds */
 
 .main-bg {
-
-    background: #424242;
-    background: linear-gradient( #424242, #212121);
+background: #424242;
+	/*background: linear-gradient(#424242, #212121);*/
+	background-image:url("https://c4.wallpaperflare.com/wallpaper/444/479/808/flowers-yellow-flowers-black-background-digital-art-wallpaper-preview.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
 }
 
 /* Login & Register Pages*/
