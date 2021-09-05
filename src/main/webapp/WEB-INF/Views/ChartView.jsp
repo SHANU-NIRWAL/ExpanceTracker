@@ -40,6 +40,11 @@ chart.render();
 </script>
 </head>
 <body>
+<%
+response.setHeader("Cache-Control", "no-cache,no-store,must-revolidate");
+response.setHeader("Progma", "no-cache");
+response.setHeader("Expires", "0");
+%>
 <%@ include file="part/Header.jsp"%>
 <div id="chartContainer" style="height: 370px; width: 100%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>

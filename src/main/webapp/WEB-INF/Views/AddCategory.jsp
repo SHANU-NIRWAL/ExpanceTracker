@@ -43,6 +43,11 @@ h1 {
 <title>Insert title here</title>
 </head>
 <body style="background-color:#d7d7d9">
+<%
+response.setHeader("Cache-Control", "no-cache,no-store,must-revolidate");
+response.setHeader("Progma", "no-cache");
+response.setHeader("Expires", "0");
+%>
 <%@ include file="part/AdminHeader.jsp" %>
 <h1 class="center" style="text-align: center;background-color: black;color:white">Add Role</h1>
 	<form class="row g-5" action="categoryInset" method="post"

@@ -24,7 +24,7 @@
 <title>Insert title here</title>
 </head>
 <body style="background-color: #d7d7d9">
-	<%@ include file="part/Header.jsp"%>
+
 
 
 	<h1 style="text-align: center; background-color: black; color: white">Edit
@@ -40,19 +40,27 @@
 		<div class="col-6">
 			<label for="exampleDataList"
 				class="form-label form-label-margin-bottom"><h5>Enter
-					Payee</h5></label> <input action="test2" class="form-control"
+					Payee</h5></label> <!--<input action="test2" class="form-control"
 				list="datalistOptions" id="exampleDataList"
 				placeholder="Type to search..." name="payeeName"
 				onchange='onInputPayee()' value="${expbean.payeeName}" disabled>
 
-			<datalist id="datalistOptions">
+			  <datalist id="datalistOptions">
 				<c:forEach items="${payeedata}" var="payedata">
 					<option value="${payedata.payeename}"></option>
 				</c:forEach>
 
-			</datalist>
+			</datalist>-->
+				<select  class="form-select" aria-label="Default select example" id="exampleDataList" name="payeeName" onchange='onInputPayee()' >
+			 <option value="${expbean.payeeName}" selected>${expbean.payeeName}</option> 
+			<c:forEach items="${payeedata}" var="payedata">
+					<option value="${payedata.payeename}">${payedata.payeename}</option>
+				</c:forEach>
+			</select>
+			
 			<input type="hidden" class="form-control" name="oldpayeeName"
 			value="${expbean.payeeName}">
+			
 		</div>
 		<div class="col-6 col-md-4">
 			<label for="exampleInputEmail1" class="form-label"><h5>
@@ -62,29 +70,36 @@
 		</div>
 		<div class="row">
 			<div class="col-6">
-				<label for="Category" class="form-label"><h5>Category</h5></label><input
+				<label for="Category" class="form-label"><h5>Category</h5></label><!--<input
 					type="text" class="form-control" name="categorydatalist"
 					list="categorydatalist" onchange='onInput(this)' id="categoryinput"
 					value="${expbean.categorydatalist}" disabled>
-				<datalist id="categorydatalist">
+				 <datalist id="categorydatalist">
 					<!--<c:forEach items="${category}" var="catdata">
 					<option value="${catdata.catName}"></option>
-				</c:forEach>-->
-				</datalist>
+				</c:forEach>
+				</datalist> -->
+				<select class="form-select" aria-label="Default select example" name="categorydatalist" onchange='onInput(this)' id="categorydatalist" >
+			 <option value="${expbean.categorydatalist}" selected>${expbean.categorydatalist}</option> 
+			
+			</select>
 <input type="hidden" class="form-control" name="oldcategoryName"
 			value="${expbean.categorydatalist}" >
 			</div>
 
 			<div class="col-4">
-				<label for="subCategory" class="form-label"><h5>SubCategory</h5></label><input
+				<label for="subCategory" class="form-label"><h5>SubCategory</h5></label><!--<input
 					type="text" class="form-control" name="subcategorydatalist"
 					value="${expbean.subcategorydatalist}" list="subcategorydatalist"
 					id="subcategoryinput" disabled>
 				<datalist id="subcategorydatalist">
-					<!--<c:forEach items="${category}" var="catdata">
+					<c:forEach items="${category}" var="catdata">
 					<option value="${catdata.catName}"></option>
-				</c:forEach>-->
-				</datalist>
+				</c:forEach>
+				</datalist>-->
+				<select class="form-select" aria-label="Default select example" name="subcategorydatalist" id="subcategoryinput">
+				<option value="${expbean.subcategorydatalist}">${expbean.subcategorydatalist}</option>
+				</select>
 			</div>
 		</div>
 		<div class="row g-3">
@@ -161,7 +176,9 @@
 		}
 
 		function onInput(e) {
-			var val = document.getElementById("categoryinput").value;
+			var payeeName=document.getElementById("exampleDataList").value;
+			console.log("on input method");
+			var val = document.getElementById("categorydatalist").value;
 			var opts = document.getElementById('categorydatalist').childNodes;
 			console.log(val);
 			var xhttp = new XMLHttpRequest();
@@ -171,7 +188,7 @@
 					myFunctionsub(this);
 				}
 			};
-			xhttp.open("GET", "/ExpanseTracker/payeesubcategory/" + val, true);
+			xhttp.open("GET", "/ExpanseTracker/payeesubcategory/" + val+"/"+payeeName, true);
 			xhttp.send();
 		}
 
@@ -192,12 +209,18 @@
 			}
 			console.log(list);
 			var list2 = document.getElementById('categorydatalist');
-
+			document.getElementById('categorydatalist').options.length = 0;
+			var option = document.createElement('option');
+		
+			option.innerHTML="please select Category";
+			list2.appendChild(option);
 			list.forEach(function(item) {
 				var option = document.createElement('option');
 				option.value = item;
+				option.innerHTML=item;
 				list2.appendChild(option);
 			});
+			list=[];
 		}
 
 		function myFunctionsub(xml) {
@@ -214,11 +237,12 @@
 				list.push(x[i].childNodes[0].nodeValue);
 			}
 			console.log(list);
-			var list2 = document.getElementById('subcategorydatalist');
-
+			var list2 = document.getElementById('subcategoryinput');
+			document.getElementById('subcategoryinput').options.length = 0;
 			list.forEach(function(item) {
 				var option = document.createElement('option');
 				option.value = item;
+				option.innerHTML=item;
 				list2.appendChild(option);
 			});
 

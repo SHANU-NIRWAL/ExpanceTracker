@@ -273,6 +273,7 @@ public class UserDao {
 		System.out.println("set expense---------catID " + catID);
 		if (checkgetallsubCategoryByCategoryName(expbean.getSubcategorydatalist(), catID).isEmpty()) {
 			updatesubCategoryBycategory(expbean.getSubcategorydatalist(), catID, expbean.getUserId());
+		}
 			int subCatId = getSubcategoryId(expbean.getSubcategorydatalist(), catID);
 			System.out.println("set expense---------subCatId " + subCatId);
 			// int subCatId=0;
@@ -280,7 +281,7 @@ public class UserDao {
 			stmt.update(query, expbean.getAmmount(), expbean.getUseraccountID(), expbean.getDescription(),
 					expbean.getUserId(), expbean.getDateexp(), expbean.getTimeexp(), expbean.getImage(), catID,
 					subCatId, payeeId);
-		}
+		
 
 	}
 
@@ -402,7 +403,9 @@ public class UserDao {
 
 	public List<CategoryBean> getallCategoryByPayeeName(String payeeName, int userID) {
 		String queryforID = "select payeeId from payee where payeeName='" + payeeName + "' and userId=" + userID;
+		System.out.println("payeeName "+payeeName+ "userId" + userID +"-------------");
 		int payeeId = stmt.queryForObject(queryforID, Integer.class);
+		System.out.println(payeeId+"--------");
 		String query = "select * from category where payeeId='" + payeeId + "'";
 		return stmt.query(query, (resultSet, rowNum) -> {
 			CategoryBean category = new CategoryBean();
@@ -413,9 +416,15 @@ public class UserDao {
 		});
 	}
 
-	public List<String> getallsubCategoryByCategoryName(String catName, int userId) {
-		String queryforid = "select catId from category where catName='" + catName + "'";
+	public List<String> getallsubCategoryByCategoryName(String catName,String payeeName ,int userId) {
+		String queryforID = "select payeeId from payee where payeeName='" + payeeName + "' and userId=" + userId;
+		System.out.println("payeeName "+payeeName+ "userId" + userId +"-------------");
+		int payeeId = stmt.queryForObject(queryforID, Integer.class);
+		System.out.println("----getallsubCategoryByCategoryName");
+		String queryforid = "select catId from category where catName='" + catName + "' and payeeId="+payeeId;
+		
 		int catId = stmt.queryForObject(queryforid, Integer.class);
+		System.out.println(catId+"----catID");
 		String query = "select * from Subcategory where catId='" + catId + "' and userId=" + userId;
 		return stmt.query(query, (resultSet, rowNum) -> {
 			return resultSet.getString("subcatName");
@@ -786,9 +795,9 @@ public class UserDao {
 
 /////////////////// Cat/////////////////////////////
 
-	public void addCat(String payeename, String catName) {
+	public void addCat(String payeename, String catName,int userId) {
 
-		String queryforID = "select payeeId from payee where payeeName='" + payeename + "' ";
+		String queryforID = "select payeeId from payee where payeeName='" + payeename + "' and userId= "+userId;
 		int pid = stmt.queryForObject(queryforID, Integer.class);
 		System.out.println("in cat dao" + pid);
 		String query = "insert into category (payeeId,catName) values(?,?) ";
@@ -920,6 +929,37 @@ public class UserDao {
 	public void updateSubCategory(SubCategoryBean sbean) {
 		String query="update Subcategory set subCatName='"+sbean.getSubCatName()+"' where id="+sbean.getId();
 		stmt.update(query);
+	}
+	
+	public void updateExpensebyIdfromAdmin(ExpenseBean expensebean, int userID, int oldammount, int useraccountID,
+			String oldpayeeName, String oldcategoryName) {
+		System.out.println("update expense------------------" + expensebean);
+		String findpayeeid = "select payeeId from payee where payeeName='" + expensebean.getPayeeName()
+				+ "' and userId=" + userID;
+		int payeeId = 0;
+
+		payeeId = stmt.queryForObject(findpayeeid, Integer.class);
+		
+		//updateCategorybyPayeeId(expensebean.getCategorydatalist(), userID, oldpayeeName, payeeId);
+
+		String findcategoryId = "Select catId from category where catName='" + expensebean.getCategorydatalist()
+				+ "' and payeeId=" + payeeId;
+		int catId = stmt.queryForObject(findcategoryId, Integer.class);
+
+		//updateSubCategorybyID(expensebean.getSubcategorydatalist(), payeeId, oldcategoryName, catId, userID);
+//
+		String findsubcategoryId = "select id from Subcategory where subCatName='"
+				+ expensebean.getSubcategorydatalist() + "' and catId=" + catId;
+		int subcatId = stmt.queryForObject(findsubcategoryId, Integer.class);
+
+		// String findaccountId="select accountId from account where
+		// accountName='"+expensebean.getAccountName().getName()+"' and userId="+userID;
+		String updateexpense = " update  expense set amount=" + expensebean.getAmmount() + " ,dateExp='"
+				+ expensebean.getDateexp() + "',timeExp='" + expensebean.getTimeexp() + "',paymentMethod="
+				+ useraccountID + ",payeeId="+payeeId+",catId="+catId+",subCatId="+subcatId+",description=' "
+				+ expensebean.getDescription() + "' where expenseId=" + expensebean.getExpenseId();
+		stmt.update(updateexpense);
+
 	}
 
 	

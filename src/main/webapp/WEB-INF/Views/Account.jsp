@@ -43,6 +43,11 @@ h1 {
 <title>Insert title here</title>
 </head>
 <body style="background-color: #d7d7d9">
+<%
+response.setHeader("Cache-Control", "no-cache,no-store,must-revolidate");
+response.setHeader("Progma", "no-cache");
+response.setHeader("Expires", "0");
+%>
 	<%@ include file="part/Header.jsp"%>
 	<div id="header">
 		<h1 class="center"

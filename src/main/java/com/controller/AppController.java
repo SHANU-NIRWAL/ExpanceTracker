@@ -95,10 +95,15 @@ public class AppController {
 	}
 
 	@RequestMapping(value = "/category", method = RequestMethod.GET)
-	public String Addcategory(Model model) {
-
+	public String Addcategory(Model model,HttpSession session) {
+		int adminID = Integer.parseInt(
+				session.getAttribute("adminId") != null ? (session.getAttribute("adminId").toString()) : "0".toString());
+		if(adminID!=0)
+		{
 		model.addAttribute("role", userDao.getRole());
 		return "AddCategory";
+		}
+		return "redirect:/login";
 	}
 
 	@RequestMapping(value = "/categoryInset", method = RequestMethod.POST)
@@ -117,12 +122,20 @@ public class AppController {
 	}
 
 	@RequestMapping(value = "/accountrole", method = RequestMethod.GET)
-	public String AccountRole(Model model) {
+	public String AccountRole(Model model,HttpSession session) {
 		System.out.println("calling account type....");
-
+		int adminID = Integer.parseInt(
+				session.getAttribute("adminId") != null ? (session.getAttribute("adminId").toString()) : "0".toString());
+		System.out.println(adminID +"admin id..............>>");
+					if(adminID!=0)
+			{
 		List<AccountTypeBean> list = userDao.list();
 		model.addAttribute("list", list);
 		return "Add_Account_Type";
+			}
+			else {
+				return "redirect:/login";
+			}
 	}
 
 	@RequestMapping(value = "/accountCrudAdmin", method = RequestMethod.POST)
@@ -179,10 +192,17 @@ public class AppController {
 	}
 
 	@GetMapping("/users")
-	public String listUsers(Model model) {
+	public String listUsers(Model model,HttpSession session) {
+		int adminID = Integer.parseInt(
+				session.getAttribute("adminId") != null ? (session.getAttribute("adminId").toString()) : "0".toString());
+		if(adminID!=0)
+		{
+			
 		model.addAttribute("userlist", userDao.getAllUsers());
 
 		return "Dashboard";
+		}
+		return "redirect:/login";
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
@@ -274,6 +294,9 @@ public class AppController {
 		// model.addAttribute("user", new UserBean());
 		int userID = Integer.parseInt(
 				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "0".toString());
+		System.out.println(userID+"userID from account.....");
+		if(userID!=0)
+		{
 		model.addAttribute("AccountType", userDao.list());
 		model.addAttribute("useraccountdetails", userDao.getUserAccountDetails(userID));
 		userDao.getUserAccountDetails(userID).stream().forEach(x -> {
@@ -281,6 +304,10 @@ public class AppController {
 		});
 
 		return "Account";
+		}
+		else {
+			return "redirect:/login";
+		}
 	}
 
 	@RequestMapping(value = "/accountinsert", method = RequestMethod.POST)
@@ -304,7 +331,9 @@ public class AppController {
 		System.out.println("calling expense....");
 		// model.addAttribute("user", new UserBean());
 		int userID = Integer.parseInt(
-				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "45".toString());
+				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "0".toString());
+		if(userID!=0)
+		{
 		List<BalanceBean> acbean = userDao.getallaccountbyID(userID);
 		List<PayeeBean> payebean = userDao.getallPayee(userID);
 		List<CategoryBean> ctbean = userDao.getallCategory();
@@ -314,6 +343,10 @@ public class AppController {
 		model.addAttribute("accountSize", acbean.size());
 		System.out.println("new account---->" + acbean.size());
 		return "Expence";
+		}
+		else {
+			return "redirect:/login";
+		}
 	}
 
 	@RequestMapping(value = "/error", method = RequestMethod.GET)
@@ -375,7 +408,9 @@ public class AppController {
 	public String expenseDetails(Model model, HttpSession session) {
 		System.out.println("expense details....................................>>");
 		int userID = Integer.parseInt(
-				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "45".toString());
+				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "0".toString());
+		if(userID!=0)
+		{
 		List<ExpenseBean> result = userDao.getAllExpenseDetails(userID);
 		result.stream().forEach(x -> {
 			System.out.println(x);
@@ -385,7 +420,13 @@ public class AppController {
 		model.addAttribute("expenseDetails", result);
 		System.out.println("expense test");
 		return "ExpenseDetails";
+		}
+		else {
+			return "redirect:/login";
+		}
 	}
+	
+	
 
 	@RequestMapping(value = "/viewImage", method = RequestMethod.POST)
 	public String viewImages(@RequestParam("imageurl") String image2, Model model) {
@@ -400,8 +441,9 @@ public class AppController {
 	public List<CategoryBean> getallCategoryBean(@PathVariable("payeeName") String payeeName, HttpSession session) {
 		System.out.println(payeeName);
 		int userID = Integer.parseInt(
-				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "45".toString());
-		List<CategoryBean> result = userDao.getallCategoryByPayeeName(payeeName, userID);
+				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "0".toString());
+		
+		List<CategoryBean> result = userDao.getallCategoryByPayeeName(payeeName, (userID==0)?userIdforAdmin:userID);
 		List<String> rslt = new ArrayList<>();
 
 		result.stream().forEach(x -> rslt.add(x.getCatName()));
@@ -417,12 +459,13 @@ public class AppController {
 		return "hellow world";
 	}
 
-	@RequestMapping(value = "/payeesubcategory/{categoryName}", method = RequestMethod.GET)
+	@RequestMapping(value = "/payeesubcategory/{categoryName}/{payeeName}", method = RequestMethod.GET)
 	@ResponseBody
-	public List<String> getallsubCategory(@PathVariable("categoryName") String categoryName, HttpSession session) {
+	public List<String> getallsubCategory(@PathVariable("categoryName") String categoryName,@PathVariable("payeeName") String payeeName, HttpSession session) {
 		int userID = Integer.parseInt(
-				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "45".toString());
-		List<String> result = userDao.getallsubCategoryByCategoryName(categoryName, userID);
+				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "0".toString());
+		System.out.println(categoryName+"----get all subcategory");
+		List<String> result = userDao.getallsubCategoryByCategoryName(categoryName, payeeName, (userID==0)?userIdforAdmin:userID);
 //	        List<String>rslt=new ArrayList<>();
 //	        
 //	        result.stream().forEach(x->rslt.add(x.getCatName()));
@@ -434,8 +477,11 @@ public class AppController {
 	@RequestMapping(value = "/chartView")
 	public String chartview(Model model, HttpSession session) {
 		int userID = Integer.parseInt(
-				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "45".toString());
+				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "0".toString());
+		if(userID!=0)
+		{
 		List<Map<Object, Object>> result = userDao.getALlusersubCategory(userID);
+		
 		Gson gsonObj = new Gson();
 		System.out.println(gsonObj.toJson(result));
 		System.out.println(result);
@@ -444,6 +490,10 @@ public class AppController {
 		System.out.println("string data");
 		System.out.println(chartreport);
 		return "ChartView";
+		}
+		else {
+			return "redirect:/login";
+		}
 	}
 
 	@RequestMapping(value = "/expensegenerator")
@@ -506,7 +556,7 @@ public class AppController {
 	public ResponseEntity<InputStreamResource> getExpensebetweendates(@RequestParam("startdate") String startdate,
 			@RequestParam("enddate") String enddate, HttpSession session) {
 		int userID = Integer.parseInt(
-				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "45".toString());
+				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "0".toString());
 		List<ExpenseBean> result = userDao.getallExpenseBetweenDates(startdate, enddate, userID);
 		ByteArrayInputStream bis = PdfGenerator.generateExpense(result);
 
@@ -649,6 +699,7 @@ public class AppController {
 	@RequestMapping(value = "/expenseDetailsADmin/editExpence/{id}", method = RequestMethod.GET)
 	public String expenseEditbyadmin(@PathVariable("id") int id, Model model, HttpSession session) {
 		// System.out.println("expense details....................................>>");
+		
 		int userID = userIdforAdmin;
 //		ExpenseBean expbn=userDao.getExpenceDetails(id,userID);
 //		
@@ -665,6 +716,8 @@ public class AppController {
 
 		return "AdminExpenseEdit";
 	}
+	
+	
 
 	////////// update////////////
 	// \\\\\\\\aCCountUpdate\\\\\\
@@ -720,7 +773,7 @@ public class AppController {
 
 		}
 
-		userDao.updateExpensebyId(expensebean, userID, oldammount, useraccountID, oldpayeeName, oldcategoryName);
+		userDao.updateExpensebyIdfromAdmin(expensebean, userID, oldammount, useraccountID, oldpayeeName, oldcategoryName);
 		return "redirect:/expenseDetails";
 
 	}
@@ -754,7 +807,7 @@ public class AppController {
 
 		}
 
-		userDao.updateExpensebyId(expensebean, userID, oldammount, useraccountID, oldpayeeName, oldcategoryName);
+		userDao.updateExpensebyIdfromAdmin(expensebean, userID, oldammount, useraccountID, oldpayeeName, oldcategoryName);
 		return "redirect:/expenseDetailsADmin/"+userIdforAdmin;
 
 	}
@@ -792,7 +845,9 @@ public class AppController {
 	@RequestMapping(value = "/manage")
 	public String manageInfo(Model model, HttpSession session) {
 		int userID = Integer.parseInt(
-				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "45".toString());
+				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "0".toString());
+		if(userID!=0)
+		{
 		List<PayeeBean> pBean = userDao.payeeData(userID);
 		model.addAttribute("pBean", pBean);
 		List<CategoryBean> cBean = userDao.categoryData(userID);
@@ -800,6 +855,10 @@ public class AppController {
 		model.addAttribute("cBean", cBean);
 		model.addAttribute("sBean", sBean);
 		return "ManageInformation";
+		}
+		else {
+			return "redirect:/login";
+		}
 	}
 	/////////// GetDataModel////////////
 //	@GetMapping("/payeeCrud/{payeeName}")
@@ -844,7 +903,7 @@ public class AppController {
 		System.out.println("in cat add controller" + cbean.getCatName());
 		int userID = Integer.parseInt(
 				session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "45".toString());
-		userDao.addCat(cbean.getPayeeName(), cbean.getCatName());
+		userDao.addCat(cbean.getPayeeName(), cbean.getCatName(),userID);
 		return "redirect:/manage";
 
 	}
@@ -869,5 +928,38 @@ public class AppController {
 		List<CategoryBean> cb = userDao.subCatByCatId(payeeName, userID);
 		return cb;//
 	}
+	
+	///////////////////////pdf////////////////
+	@RequestMapping(value = "downloadpdfinbetweendate", method = RequestMethod.POST)
+    public String getExpensebetweendates(@RequestParam("startdate") String startdate,
+            @RequestParam("enddate") String enddate, Model model,HttpSession session) {
+		System.out.println("getExpensebetweendates>>>>>");
+        int userID = Integer.parseInt(
+                session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "0".toString());
+        List<ExpenseBean> result = userDao.getallExpenseBetweenDates(startdate, enddate, (userID==0)?userIdforAdmin:userID);
+      
+        model.addAttribute("expenseDetails", result);
+        
+
+        return "ExpenseDetails";
+    }
+	@RequestMapping(value = "/expenseDetailsADmin/downloadpdfinbetweendate", method = RequestMethod.POST)
+    public String getExpensebetweendatesfromadmin(@RequestParam("startdate") String startdate,
+            @RequestParam("enddate") String enddate, Model model,HttpSession session) {
+		System.out.println("/expenseDetailsADmin/getExpensebetweendates>>>>>");
+//        int userID = Integer.parseInt(
+//                session.getAttribute("userId") != null ? (session.getAttribute("userId").toString()) : "0".toString());
+        System.out.println(userIdforAdmin);
+        
+        	model.addAttribute("role",1);
+        	;
+        List<ExpenseBean> result = userDao.getallExpenseBetweenDates(startdate, enddate,userIdforAdmin);
+      
+        model.addAttribute("expenseDetails", result);
+        
+
+        return "ExpenseDetails";
+    }
+
 
 }

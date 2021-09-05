@@ -36,6 +36,11 @@
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body style="background-color: #d7d7d9">
+<%
+response.setHeader("Cache-Control", "no-cache,no-store,must-revolidate");
+response.setHeader("Progma", "no-cache");
+response.setHeader("Expires", "0");
+%>
 	<%@ include file="part/Header.jsp"%>
 	<div class="row"
 		style="margin: auto; flex: display; position: fixed; top: 50%; left: 50%; // width: 30em; // height: 18em; margin-top: -9em; /*set to a negative number 1/2 of your height*/ margin-left: -35em; /*set to a negative number 1/2 of your width*/ // border: 1px solid #ccc; // background-color: #f3f3f3;">

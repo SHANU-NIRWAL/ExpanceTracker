@@ -148,11 +148,12 @@ body {
 			console.log(email);
 			$.get("checkemail/" + email, function(data) {
 				console.log(data);
+				var datavalue=data.getElementsByTagName("Boolean")[0].innerHTML;
 				
 				
 				
 				
-				if (data) {
+				if (datavalue==="true") {
 				 	$("#emailError").text("*Email Already In Use");
 				}else{
 					$("#emailError").text("");

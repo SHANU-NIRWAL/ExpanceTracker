@@ -27,6 +27,9 @@
 	integrity='sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC'
 	crossorigin='anonymous'>
 <script>
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+	response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+	response.setHeader("Expires", "0");
 	$(document).ready(function() {
 		$('#myTable').DataTable()
 	})
@@ -34,24 +37,69 @@
 <link rel='stylesheet'
 	href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css' />
 </head>
-<body  style="background-color:#d7d7d9">
+<body style="background-color: #d7d7d9">
+<%
+response.setHeader("Cache-Control", "no-cache,no-store,must-revolidate");
+response.setHeader("Progma", "no-cache");
+response.setHeader("Expires", "0");
+%>
 
 	<c:choose>
-	<c:when test="${role==1}">
-	<%@ include file="part/AdminHeader.jsp"%>
-	<input type="hidden" value=${userId } name="userId" >
-	</c:when>
-	<c:otherwise>
-	<%@ include file="part/Header.jsp"%>
-	</c:otherwise>
+		<c:when test="${role==1}">
+			<%@ include file="part/AdminHeader.jsp"%>
+			<input type="hidden" value=${userId } name="userId">
+		</c:when>
+		<c:otherwise>
+			<%@ include file="part/Header.jsp"%>
+		</c:otherwise>
 	</c:choose>
-	
-	
-	<h1 style="text-align: center;background-color: black;color:white">Total Expense</h1>
 
-	<div
-		style="margin:auto;width:800px;" id="tab">
-		<table class="table table-info " id="myTable" style=" box-shadow: 10px 10px 5px grey;">
+
+	<h1 style="text-align: center; background-color: black; color: white">Total
+
+		Expense</h1>
+	<div class="row">
+		<div class="col order-first " style="margin-left:300px"><h6 style="margin-left:20px">
+			Year</h6> <input type="text" name="datep" id="annee" class="form-control"
+				style="width: 200px; margin-left: 10px"><br><h6 style="margin-left:20px"> Month</h6> <input
+				type="text" name="datep" id="mois" class="form-control"
+				style="width: 200px; margin-left: 10px"> <br>
+			<button class=" btn-warning btn btn-theme" type="submit" 
+				style="margin-left: 1px; box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px; margin-left: 10px">View</button>
+
+		</div>
+
+		<div class="col" style="width: 500px;"></div>
+
+		<div class="col order-last" style="left-margin: 700px;">
+			<form action="downloadpdfinbetweendate" method="post"
+				style="margin-right: 50px;">
+				<label for="date" class="col"><h6>Enter start date:-</h6></label> <input
+					type="date" id="date" name="startdate" class="form-control"
+					style="width: 150px"> <br><h6 >Enter End date:- </h6><input
+					type="date" name="enddate" class="form-control"
+					style="margin-right: 50px; width: 150px""><br> <input
+					type="submit" value="View" class="btn btn-warning"
+					style="margin-left: 1px; box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;" />
+			
+			<c:choose>
+		<c:when test="${role==1}">
+			<a href="${userId }">reset</a><br><br>
+		</c:when> 
+		<c:otherwise>
+		<a href="expenseDetails">reset</a><br><br>
+		</c:otherwise>
+	</c:choose>
+			</form>
+
+			
+		</div>
+	</div>
+	</div>
+
+	<div style="margin: auto; width: 800px;" id="tab">
+		<table class="table table-info " id="myTable"
+			style="box-shadow: 10px 10px 5px grey;">
 			<thead>
 				<tr class="table-dark">
 					<th scope="col">#</th>
@@ -83,7 +131,7 @@
 								<input type="hidden" value="${expensedetails.image }"
 									name="imageurl" /> <input type="submit" value="view" />
 							</form></td> --%>
-							<td><a href="editExpence/${expensedetails.expenseId}"><i
+						<td><a href="editExpence/${expensedetails.expenseId}"><i
 								class="material-icons">&#xe22b;</i></a>&nbsp; <a
 							href="deleteExpence/${expensedetails.expenseId}"><i
 								class="material-icons" style="color: red">&#xe872;</i></a></td>
@@ -91,36 +139,53 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<input type="button" value="Create PDF" 
-            id="btPrint" onclick="createPDF()"  />
-		</div>
-		
-	
+		<input type="button" value="Create PDF" id="btPrint"
+			onclick="createPDF()" />
+	</div>
+
+
 	<script>
-	 function createPDF() {
-	        var sTable = document.getElementById('tab').innerHTML;
+		$(document).ready(function() {
+			var table = $('#myTable').DataTable();
+			let now = new Date();
+			let year = now.getFullYear();
+			let month = ("0" + (now.getMonth() + 1)).slice(-2);
+			$('#annee').val(year);
+			$('#mois').val(month);
 
-	        var style = "<style>";
-	        style = style + "table {width: 100%;font: 17px Calibri;}";
-	        style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
-	        style = style + "padding: 2px 3px;text-align: center;}";
-	        style = style + "</style>";
+			$(document).on("click", ".btn-theme", function() {
+				var year = $('#annee').val();
+				var month = $('#mois').val();
+				var serachVal = year + "-" + month;
+				table.column(7).search(serachVal).draw();
+			});
+		});
 
-	        // CREATE A WINDOW OBJECT.
-	        var win = window.open('', '', 'height=700,width=700');
+		function createPDF() {
+			var sTable = document.getElementById('tab').innerHTML;
 
-	        win.document.write('<html><head>');
-	        win.document.write('<title>Profile</title>');   // <title> FOR PDF HEADER.
-	        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
-	        win.document.write('</head>');
-	        win.document.write('<body>');
-	        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
-	        win.document.write('</body></html>');
+			var style = "<style>";
+			style = style + "table {width: 100%;font: 17px Calibri;}";
+			style = style
+					+ "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+			style = style + "padding: 2px 3px;text-align: center;}";
+			style = style + "</style>";
 
-	        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+			// CREATE A WINDOW OBJECT.
+			var win = window.open('', '', 'height=700,width=700');
 
-	        win.print();    // PRINT THE CONTENTS.
-	    }
+			win.document.write('<html><head>');
+			win.document.write('<title>Profile</title>'); // <title> FOR PDF HEADER.
+			win.document.write(style); // ADD STYLE INSIDE THE HEAD TAG.
+			win.document.write('</head>');
+			win.document.write('<body>');
+			win.document.write(sTable); // THE TABLE CONTENTS INSIDE THE BODY TAG.
+			win.document.write('</body></html>');
+
+			win.document.close(); // CLOSE THE CURRENT WINDOW.
+
+			win.print(); // PRINT THE CONTENTS.
+		}
 	</script>
 </body>
 </html>

@@ -16,6 +16,11 @@
 </head>
 <body style="margin: auto; background-color: #d7d7d9;">
 	<%@ include file="part/AdminHeader.jsp"%>
+	<%
+response.setHeader("Cache-Control", "no-cache,no-store,must-revolidate");
+response.setHeader("Progma", "no-cache");
+response.setHeader("Expires", "0");
+%>
 	<h1 style="text-align: center; background-color: black; color: white">List
 		of all Users</h1>
 
@@ -41,11 +46,10 @@
 						<td>${user.lastName}</td>
 						<td>${user.email}</td>
 						<td>${user.phone}</td>
-						<td><a href="edit/${user.userId}"><i
-								class="material-icons">&#xe22b;</i></a>&nbsp; <a
+						<td><a
 							href="delete/${user.userId}"><i class="material-icons"
 								style="color: red">&#xe872;</i></a></td>
-						<td>><a href="/ExpanseTracker/expenseDetailsADmin/${user.userId}">View</td>
+						<td><a href="/ExpanseTracker/expenseDetailsADmin/${user.userId}">View</td>
 					</tr>
 				</c:forEach>
 			</tbody>
